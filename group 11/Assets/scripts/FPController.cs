@@ -23,7 +23,7 @@ public class FPController : MonoBehaviour
     public float crouchSpeed = 2.5f;
     private float originalMoveSpeed;
     [Header("Pickup Settings")]
-    public float pickupRange = 3f;
+    public float pickupRange = 5f;
     public Transform holdPoint;
     private PickUpObject heldObject;
 
@@ -52,7 +52,7 @@ public class FPController : MonoBehaviour
         if (heldObject != null)
         {
             heldObject.transform.position = holdPoint.position;
-            heldObject.transform.rotation = holdPoint.rotation;
+            
         }
     }
 
@@ -196,6 +196,7 @@ public class FPController : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
             {
                 PickUpObject pickUp = hit.collider.GetComponent<PickUpObject>();
+                
 
                 if (pickUp != null)
                 {
