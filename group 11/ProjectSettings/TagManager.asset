@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Pick up
+  - Blood
+  - Fingerprints
   layers:
   - Default
   - TransparentFX
