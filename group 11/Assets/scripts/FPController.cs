@@ -22,6 +22,7 @@ public class FPController : MonoBehaviour
     public float standHeight = 2f;
     public float crouchSpeed = 2.5f;
     private float originalMoveSpeed;
+   
     [Header("Pickup Settings")]
     public float pickupRange = 5f;
     public Transform holdPoint;
