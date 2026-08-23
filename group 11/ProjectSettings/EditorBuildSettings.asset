@@ -8,6 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Akhona's scenes/MainMenu.unity
+    guid: 790cbf70ee1e00f498f1c04edd00899f
+  - enabled: 1
+    path: Assets/Scenes/Akhona's scenes/scene 1.unity
+    guid: 8097dbdc464d3a04cbd324375ffc1197
+  - enabled: 1
+    path: Assets/Scenes/Akhona's scenes/scene 2.unity
+    guid: 9e633f83f50c46f45aa22692c7a4f331
+  - enabled: 1
+    path: Assets/Scenes/Akhona's scenes/Tutorial.unity
+    guid: a7d0c5aed7c509146962fc86b1ebae6b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
