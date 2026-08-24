@@ -8,6 +8,9 @@ public class FPController : MonoBehaviour
     public float gravity = -9.81f;     // Controls the downward force applied to the player. The value is negative because gravity pulls the player down.
     public float jumpHeight = 1.5f;
 
+    [Header("Scan Settings")]
+    private PlayerInput inputActions;
+
     [Header("Look Settings")]
     public Transform cameraTransform;
     public float lookSensitivity = 2f;
@@ -18,6 +21,14 @@ public class FPController : MonoBehaviour
     public float standHeight = 2f;
     public float crouchSpeed = 2.5f;
     private float originalMoveSpeed;
+<<<<<<< Updated upstream:group 11/Assets/scripts/FPController2.cs
+=======
+
+    [Header("Pickup Settings")]
+    public float pickupRange = 5f;
+    public Transform holdPoint;
+    private PickUpObject heldObject;
+>>>>>>> Stashed changes:group 11/Assets/scripts/FPController.cs
 
 
  
@@ -30,8 +41,9 @@ public class FPController : MonoBehaviour
     private CharacterController controller;
     private Vector2 moveInput;
     private Vector2 lookInput;
-    private Vector3 velocity;     // Stores the player's current vertical movement, including gravity.
+    private Vector3 velocity; // Stores the player's current vertical movement, including gravity.
     private float verticalRotation = 0f;
+
 
     // Awake runs once when the GameObject is first loaded.
     private void Awake()
@@ -48,6 +60,14 @@ public class FPController : MonoBehaviour
        
         HandleMovement();
         HandleLook();
+<<<<<<< Updated upstream:group 11/Assets/scripts/FPController2.cs
+=======
+        if (heldObject != null)
+        {
+            heldObject.transform.position = holdPoint.position;
+
+        }
+>>>>>>> Stashed changes:group 11/Assets/scripts/FPController.cs
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -56,6 +76,8 @@ public class FPController : MonoBehaviour
         // For example, WASD or the left analogue stick.
         moveInput = context.ReadValue<Vector2>();
     }
+
+
 
     // This method is called by the Input System when look input changes.
     public void OnLook(InputAction.CallbackContext context)
@@ -127,6 +149,38 @@ public class FPController : MonoBehaviour
         }
     }
 
+<<<<<<< Updated upstream:group 11/Assets/scripts/FPController2.cs
+=======
+
+
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        if (bulletPrefab != null && gunPoint != null)
+        {
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                gunPoint.position,
+                gunPoint.rotation
+            );
+
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.AddForce(gunPoint.forward * bulletForce); // Adjust force value as needed
+            }
+        }
+    }
+>>>>>>> Stashed changes:group 11/Assets/scripts/FPController.cs
     public void Oncrouch(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -149,7 +203,37 @@ public class FPController : MonoBehaviour
         }
         else if (context.canceled)
         {
+<<<<<<< Updated upstream:group 11/Assets/scripts/FPController2.cs
             moveSpeed = originalMoveSpeed;
+=======
+            moveSpeed = originalMoveSpeed; // Reset to original speed when sprinting stops
+        }
+    }
+    public void OnPickUp(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        if (heldObject == null)
+        {
+            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
+            {
+                PickUpObject pickUp = hit.collider.GetComponent<PickUpObject>();
+
+
+                if (pickUp != null)
+                {
+                    pickUp.PickUp(holdPoint);
+                    heldObject = pickUp;
+                }
+            }
+        }
+        else
+        {
+            heldObject.Drop();
+            heldObject = null;
+>>>>>>> Stashed changes:group 11/Assets/scripts/FPController.cs
         }
     }
 
