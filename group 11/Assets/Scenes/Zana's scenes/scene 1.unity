@@ -3913,6 +3913,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: ddc7ed07-6d18-4606-bafd-732528094b53
     m_ActionName: 'Player/Pick Up[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3fdd7205-7f03-4bc3-8ef7-354a55d64acb
+    m_ActionName: 'Player/Pause[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 49e988b5-b8a7-4e3a-b70c-1b48058561c1
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 62b54a60-ec2c-40ba-aaba-22121f337878
+    m_ActionName: 'UI/Submit[/Keyboard/space,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7de7f7dd-6bfe-4d6d-8bc4-33cd123e307f
+    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc1b5b57-6531-4c1e-896b-cd33c60017e0
+    m_ActionName: 'UI/Point[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f528fdb9-ea4b-4678-9923-e987223adc80
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -23953,6 +23977,34 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ddc7ed07-6d18-4606-bafd-732528094b53
     m_ActionName: 'Player/Pick Up[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3fdd7205-7f03-4bc3-8ef7-354a55d64acb
+    m_ActionName: 'Player/Pause[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e633446b-af9b-413e-873b-f77515ec0b3f
+    m_ActionName: 'Player/Scan[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 49e988b5-b8a7-4e3a-b70c-1b48058561c1
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 62b54a60-ec2c-40ba-aaba-22121f337878
+    m_ActionName: 'UI/Submit[/Keyboard/space,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7de7f7dd-6bfe-4d6d-8bc4-33cd123e307f
+    m_ActionName: 'UI/Cancel[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc1b5b57-6531-4c1e-896b-cd33c60017e0
+    m_ActionName: 'UI/Point[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f528fdb9-ea4b-4678-9923-e987223adc80
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
