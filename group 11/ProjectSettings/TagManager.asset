@@ -7,11 +7,12 @@ TagManager:
   - Pick up
   - Blood
   - Fingerprints
+  - Inspectable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PickUp
   - Water
   - UI
   - 
