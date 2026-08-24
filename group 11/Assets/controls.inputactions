@@ -43,18 +43,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pick Up",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "ddc7ed07-6d18-4606-bafd-732528094b53",
+                    "id": "3fdd7205-7f03-4bc3-8ef7-354a55d64acb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "Interation",
                     "type": "Button",
-                    "id": "3fdd7205-7f03-4bc3-8ef7-354a55d64acb",
+                    "id": "79225554-ce28-4559-9629-ee205a217de6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -113,61 +113,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";New Control Scheme",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Arrow",
-                    "id": "ad5a5694-0b7a-4f8f-a64c-c9d323b84882",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "1150346d-56a6-4a53-b88a-5c663537009f",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";New Control Scheme",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "022720cc-6ee6-44e5-ba3f-a4f9974544c8",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";New Control Scheme",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "1a6d3ce6-6e5d-4bb9-90fe-1c46fe88dd7f",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";New Control Scheme",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "aa41b2bf-4337-420b-9cb4-2cbd5f85331d",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -295,34 +240,23 @@
                 },
                 {
                     "name": "",
-                    "id": "5e998f6b-924b-4809-942c-38109e0f46fc",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pick Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2a45c2dd-171e-4db6-87a5-a42f6325a149",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pick Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a60c77b0-869f-4c80-9f82-26d3df079b2a",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c799c340-4a17-4450-9ae0-cda848209b7c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

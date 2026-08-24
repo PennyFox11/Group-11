@@ -889,6 +889,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e0357086ef4c848906db224077e97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPController
+  moveSpeed: 15
+  gravity: -9.81
+  jumpHeight: 2
+  cameraTransform: {fileID: 662159045}
+  lookSensitivity: 2
+  verticalLookLimit: 90
+  bulletPrefab: {fileID: 0}
+  gunPoint: {fileID: 0}
+  bulletForce: 500
+  crouchHeight: 1
+  standHeight: 2
+  crouchSpeed: 2.5
+  pickupRange: 5
+  holdPoint: {fileID: 779003145}
+  throwForce: 10
+  throwUpwardBoost: 1
 --- !u!136 &253671488
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6708,7 +6724,6 @@ GameObject:
   - component: {fileID: 1457505220}
   - component: {fileID: 1457505219}
   - component: {fileID: 1457505226}
-  - component: {fileID: 1457505227}
   m_Layer: 0
   m_Name: 'player '
   m_TagString: Player
@@ -6730,7 +6745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: f44eeb4f22373c04db4d4032a5cda032, type: 3}
   m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 917665182}
+  m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -6743,7 +6758,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1457505227}
+      - m_Target: {fileID: 1457505221}
         m_TargetAssemblyTypeName: FPController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -6759,7 +6774,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1457505227}
+      - m_Target: {fileID: 1457505221}
         m_TargetAssemblyTypeName: FPController, Assembly-CSharp
         m_MethodName: OnLook
         m_Mode: 0
@@ -6775,7 +6790,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1457505227}
+      - m_Target: {fileID: 1457505221}
         m_TargetAssemblyTypeName: FPController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -6793,6 +6808,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 173dec3a-50a6-4029-8f98-74d85f45931c
     m_ActionName: 'Player/Crouch[/Keyboard/ctrl]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ddc7ed07-6d18-4606-bafd-732528094b53
+    m_ActionName: 'Player/Pick Up[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 49e988b5-b8a7-4e3a-b70c-1b48058561c1
@@ -6841,14 +6860,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3fdd7205-7f03-4bc3-8ef7-354a55d64acb
     m_ActionName: 'Player/Pause[/Keyboard/escape]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 79225554-ce28-4559-9629-ee205a217de6
-    m_ActionName: 'Player/Interation[/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 814424d4-7ddd-4518-9119-49a2dd3e81c1
-    m_ActionName: 'Player/Inspector[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -6891,6 +6902,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e0357086ef4c848906db224077e97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPController
+  moveSpeed: 4
+  gravity: -9.81
+  jumpHeight: 2
+  cameraTransform: {fileID: 1283302817}
+  lookSensitivity: 1
+  verticalLookLimit: 90
+  bulletPrefab: {fileID: 0}
+  gunPoint: {fileID: 0}
+  bulletForce: 500
+  crouchHeight: 1
+  standHeight: 2
+  crouchSpeed: 2.5
+  pickupRange: 5
+  holdPoint: {fileID: 779003145}
+  throwForce: 10
+  throwUpwardBoost: 1
 --- !u!136 &1457505222
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7000,27 +7027,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameRespawn
   threshold: -10
---- !u!114 &1457505227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457505218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7968ae6657762b044847ab3988078f28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPController
-  moveSpeed: 5
-  gravity: -9.81
-  jumpHeight: 1.5
-  cameraTransform: {fileID: 1283302817}
-  lookSensitivity: 2
-  verticalLookLimit: 90
-  crouchHeight: 1
-  standHeight: 2
-  crouchSpeed: 2.5
 --- !u!1 &1464809013
 GameObject:
   m_ObjectHideFlags: 0
