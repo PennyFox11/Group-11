@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class FPController : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -12,25 +13,19 @@ public class FPController : MonoBehaviour
     public float lookSensitivity = 2f;
     public float verticalLookLimit = 90f;
 
-    [Header("Shooting")]
-    public GameObject bulletPrefab;
-    public Transform gunPoint;
-    public float bulletForce = 500f;
-
     [Header("Crouch Settings")]
     public float crouchHeight = 1f;
     public float standHeight = 2f;
     public float crouchSpeed = 2.5f;
     private float originalMoveSpeed;
-   
-    [Header("Pickup Settings")]
-    public float pickupRange = 5f;
-    public Transform holdPoint;
-    private PickUpObject heldObject;
 
-    [Header("Throw Settings")]
-    public float throwForce = 10f;
-    public float throwUpwardBoost = 1f;
+
+ 
+    private bool isInspecting = false;
+    private Transform inspectionObject;
+    private Vector3 originalObjectPosition;
+    private Quaternion originalObjectRotation;
+    private Transform originalObjectParent;
 
     private CharacterController controller;
     private Vector2 moveInput;
@@ -43,18 +38,16 @@ public class FPController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         originalMoveSpeed = moveSpeed;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
     private void Update()
     {
+       
         HandleMovement();
         HandleLook();
-        if (heldObject != null)
-        {
-            heldObject.transform.position = holdPoint.position;
-            
-        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -96,7 +89,6 @@ public class FPController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-
     // Handles the player's camera and body rotation.
     public void HandleLook()
     {
@@ -117,8 +109,7 @@ public class FPController : MonoBehaviour
         verticalRotation = Mathf.Clamp(
             verticalRotation,
             -verticalLookLimit,
-            verticalLookLimit
-        );
+            verticalLookLimit);
 
         // Rotates only the camera up and down.
         cameraTransform.localRotation =
@@ -130,38 +121,12 @@ public class FPController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && controller.isGrounded) // Check that the Jump action was successfully performed and that the player is currently standing on the ground.
+        if (context.performed && controller.isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculates the upward speed needed for the player to reach the chosen jump height while accounting for gravity.
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
     }
 
-    public void OnShoot(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Shoot();
-        }
-    }
-
-    private void Shoot()
-    {
-        if (bulletPrefab != null && gunPoint != null)
-        {
-            GameObject bullet = Instantiate(
-                bulletPrefab,
-                gunPoint.position,
-                gunPoint.rotation
-            );
-
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                rb.AddForce(gunPoint.forward * bulletForce); // Adjust force value as needed
-            }
-        }
-    }
     public void Oncrouch(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -175,55 +140,19 @@ public class FPController : MonoBehaviour
             moveSpeed = originalMoveSpeed;
         }
     }
+
     public void OnSprint(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            moveSpeed = originalMoveSpeed * 2f; // Double the speed for sprinting
+            moveSpeed = originalMoveSpeed * 2f;
         }
         else if (context.canceled)
         {
-            moveSpeed = originalMoveSpeed; // Reset to original speed when sprinting stops
-        }
-    }
-    public void OnPickUp(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-
-        if (heldObject == null)
-        {
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
-            {
-                PickUpObject pickUp = hit.collider.GetComponent<PickUpObject>();
-                
-
-                if (pickUp != null)
-                {
-                    pickUp.PickUp(holdPoint);
-                    heldObject = pickUp;
-                }
-            }
-        }
-        else
-        {
-            heldObject.Drop();
-            heldObject = null;
+            moveSpeed = originalMoveSpeed;
         }
     }
 
 
-    public void OnThrow(InputAction.CallbackContext context)
-    {
-        if (!context.performed) return;
-        if (heldObject == null) return;
 
-        Vector3 dir = cameraTransform.forward;
-        Vector3 impulse = dir * throwForce + Vector3.up * throwUpwardBoost;
-
-        heldObject.Throw(impulse);
-        heldObject = null;
-    }
-
-}
+} 
