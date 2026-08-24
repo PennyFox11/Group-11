@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - Pick up
-  - Inspectable
+  - Blood
+  - Fingerprints
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
-  - Pick up
+  - 
   - 
   - 
   - 
