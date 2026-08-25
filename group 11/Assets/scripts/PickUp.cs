@@ -1,10 +1,12 @@
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+//Akhona Khoali
+//this script is added to all pickable objects in the scene. It allows the player to pick up and throw objects. It is used in together with the PlayerPickupController script. The player can pick up an object by pressing E when they are near it. The player can throw the object by pressing the Throw button (default is left mouse button). The player can drop the object by pressing E again. The object will be held at a HoldPoint, which is a child of the player. The HoldPoint is set in the PlayerPickupController script.
 
 public class PickUp : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     bool IsHolding = false;
     [SerializeField]
     float throwForce = 600f;

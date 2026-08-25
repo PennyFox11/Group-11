@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+//Akhona Khoali
+//this is the new updated version of the player pickup that works, not the one given in class that was not working.
 
 public class PlayerPickup : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class PlayerPickup : MonoBehaviour
 
     private void Update()
     {
-        // Don't bother scanning for new targets while already holding something
+        // if the player is holding an object already, there is no need to pick up another one, so we only check for nearby pickups when the player is not holding anything
         if (heldObject == null)
         {
             FindClosestPickup();
@@ -42,26 +44,26 @@ public class PlayerPickup : MonoBehaviour
         currentTarget = closest;
     }
 
-    // Wire this to your "Interact" (E) Input Action -> Invoke Unity Events -> Performed
+    // this is for the input system where you add an event to the interact action and link it to the function
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
 
         if (heldObject != null)
         {
-            // Already holding something -> this press drops it
+            //  if the player is Already holding something,this press drops it
             heldObject.Interact();
             heldObject = null;
         }
         else if (currentTarget != null)
         {
-            // Nothing held, something nearby -> pick it up
+            // if Nothing is held but something is nearby, the player can pick it up
             currentTarget.Interact();
             heldObject = currentTarget;
         }
     }
 
-    // Wire this to your "Throw" Input Action -> Invoke Unity Events -> Performed
+    // this is for the throw input action where you add the throw event
     public void OnThrow(InputAction.CallbackContext context)
     {
         if (!context.performed) return;

@@ -1,11 +1,14 @@
 using UnityEngine;
+//Akhona Khoali
+//Honestly I used AI to debug this script. The youtube videos did not match my desired outcome and were outdated
 
 public class HiddenClue : MonoBehaviour
 {
     [SerializeField] private string playerTag = "Player";
 
-    // Grabs every renderer in this object AND its children, since the
-    // visible mesh is often on a child GameObject rather than this one.
+    // Grabs every renderer in this object AND its children, since the visible mesh is often on a child GameObject rather than this one.
+    // This is because with some objects have 2 meshes so one remained visible meaning the scanning mechanic so all remders under the object must have been switched off unless the been touches it then the mesh becomes visible
+    
     private Renderer[] clueRenderers;
     private ScannerController scanner;
 
@@ -50,7 +53,7 @@ public class HiddenClue : MonoBehaviour
         }
     }
 
-    // TEMP DEBUG: logs once a second instead of every frame so the console stays readable.
+    // TEMP DEBUG: logs once a second instead of every frame so the console stays readable. This is because When testing I ran intp a situation where the clue was visible for a single frame and then hidden again, and I wanted to see what was happening.I realised that the problem was the tags
     private float debugLogTimer = 0f;
 
     private void Update()

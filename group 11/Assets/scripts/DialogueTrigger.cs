@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+//Akhona Khoali
+//this script is to trigger the dialogue box when the player presses E and to show the next line of dialogue when pressing E again. The dialogue box is shown using a UI panel and a text component. The dialogue lines are stored in an array of strings and can be set in the inspector. The dialogue box is hidden when the player presses E again after all lines have been shown.
 public class DialogueTrigger : MonoBehaviour
 {
     [Header("Dialogue Lines")]
@@ -9,12 +10,15 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField]
     private string[] lines = new string[]
     {
+        //On the inspector you can add lines to the dialogue using the event system so this text is useless for not
         "Detective hurry!!!.....",
         "Frank has been found dead.",
-        "Quickly find the code to his safe. Press E to intect and pick up objects",
-        "Press Q to scan for fingerprints",
+        "Quickly find the code to his safe.Press E open and enter the code",
+        "Another think Frank lives alone so there should be one fingerprint in his house.",
+        "Find the fingerprint and scan it to get the code to his safe",
+        "Press F to scan for fingerprints",
         "When you have found the code go unlock the safe in his bedroom to find a gun",
-        "When you have found the finger prints check your phone using R and pick the right fingerprint",
+     
         "Goodluck on your mission"
     };
 
@@ -25,7 +29,7 @@ public class DialogueTrigger : MonoBehaviour
     private int currentLineIndex = -1;
     private bool isActive = false;
 
-    // Wire this to InteractionZone's On Interact event
+    // shows that an addition to the interation event for the dialogue box and is needed to show the next line of dialogue when pressing E again    
     public void NextLine()
     {
         currentLineIndex++;
@@ -48,7 +52,7 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-    // Wire this to InteractionZone's On Zone Exit event, so walking away closes the box
+    // shows that the dialogue box is no longer active and the current line index is reset to -1 so that the next time the player presses E the dialogue will start from the beginning
     public void EndDialogue()
     {
         isActive = false;

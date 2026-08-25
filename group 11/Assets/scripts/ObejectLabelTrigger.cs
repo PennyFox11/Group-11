@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+//Akhona Khoali
+//this script is for the to displayer a label(text) when the player collides it it
+
+//for this to work the mesh collider had to be disabled and a box collider was used to replace it. This unfortunaly resulted in the plyer waking through the object. This will re refined in the next prototype. I did not want to manually add new colliders
 
 [RequireComponent(typeof(Collider))]
 public class ObjectLabelTrigger : MonoBehaviour

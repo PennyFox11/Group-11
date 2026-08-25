@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections;
+//Akhona Khoali
+// This script controls a door that can be opened. It uses a coroutine to smoothly rotate the door over time.
+//This is a good script because we didnt have animations for doors but the hinges are already set up in the model. This script will rotate the door around its own Y axis to open it. It can be used for any door that has a hinge and can be opened by the player. The door can be set to open once or to open and close when the player enters and exits the trigger area.
 
 public class DoorController : MonoBehaviour
 {

@@ -1,8 +1,9 @@
 using UnityEngine;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
+//Akhona Khoali
+//this script is to create a safe lock that the player can interact with. The player will be able to enter a code to unlock the safe. The player will be able to open the keypad when they interact with the safe and close the keypad when they are done interacting with the safe. The player will be able to enter a code using the keyboard and the code will be checked against the correct code. If the code is correct, the safe will be unlocked and an event will be fired. If the code is incorrect, a message will be displayed and the player will have to try again.
 
 public class SafeLock : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class SafeLock : MonoBehaviour
     private bool isActive = false;
     private bool isUnlocked = false;
 
-    // Wire this to InteractionZone's On Interact event
+    // add event to the interaction event to open the keypad when the player interacts with the safe
     public void OpenKeypad()
     {
         if (isUnlocked) return;
@@ -39,7 +40,7 @@ public class SafeLock : MonoBehaviour
         Cursor.visible = true;
     }
 
-    // Wire this to InteractionZone's On Zone Exit event, so walking away closes the keypad
+    //add event to the interaction event to close the keypad when the player interacts with the safe    
     public void CloseKeypad()
     {
         isActive = false;
@@ -52,7 +53,7 @@ public class SafeLock : MonoBehaviour
             Cursor.visible = false;
         }
     }
-
+    //this in not the new input system, but it works for now. I will update it later to use the new input system.
     private void Update()
     {
         if (!isActive || isUnlocked) return;
