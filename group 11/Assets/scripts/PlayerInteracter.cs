@@ -1,100 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+//Akhona Khoali
+//This script is used to every time a player enters an interation Zone, it works similarily to an on trigger method but it is more specific to the interaction system  and allows for differnt interactions with the same button press(E)
 
-/// <summary>
-/// Sits on the player camera (or a child of it). Fires a ray forward every
-/// frame, finds the current IInteractable (if any), shows a prompt, and
-/// calls Interact() when the player presses E.
-///
-/// While holding an item (HeldItemController.IsHolding), E instead drops
-/// it — the player's "hands are full" and the raycast stops looking for
-/// new targets until they drop what they're carrying.
-///
-/// Input System setup:
-/// - Add an "Interact" action (Button) in your Gameplay action map, bound to <Keyboard>/e.
-/// - Drag the generated InputActionAsset reference in the inspector, or use
-///   PlayerInput component + SendMessages/UnityEvents. This script assumes
-///   PlayerInput with "Invoke Unity Events" behaviour, wired to OnInteract below.
-/// </summary>
 public class PlayerInteractor : MonoBehaviour
 {
-    [Header("Raycast Settings")]
-    [SerializeField] private Camera _playerCamera;
-    [SerializeField] private float _interactRange = 3f;
-    [SerializeField] private LayerMask _interactableLayer;
+    private InteractionZone currentZone;
 
-    [Header("UI")]
-    [SerializeField] private PromptUI _promptUI; // simple script that shows/hides a world-space or screen-space text
-
-    private IInteractable _currentTarget;
-
-    private void Update()
+    public void SetCurrentZone(InteractionZone zone)
     {
-        bool isHolding = HeldItemController.Instance != null && HeldItemController.Instance.IsHolding;
-
-        if (isHolding)
-        {
-            // Hands are full — show a "Drop" prompt instead of scanning for new targets.
-            _currentTarget = null;
-            _promptUI?.Show("Drop");
-            return;
-        }
-
-        CheckForInteractable();
+        currentZone = zone;
     }
 
-    private void CheckForInteractable()
+    public void ClearCurrentZone(InteractionZone zone)
     {
-        Ray ray = _playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-
-        if (Physics.Raycast(ray, out RaycastHit hit, _interactRange, _interactableLayer))
+        // Only clear if this is the zone we're actually tracking
+        // stops two zones from being activated at the same time and causes a bug. Side note I noticed a bug when unlocking the safe door because the pickup object is in the safe and the safe itself required the E input so afterunlockingthe same the object automatically clips to the player as a pick up. I dont know how to fix it for now but I will try to fix it later.
+        if (currentZone == zone)
         {
-            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
-            {
-                if (interactable != _currentTarget)
-                {
-                    _currentTarget = interactable;
-                    _promptUI?.Show(interactable.GetPrompt());
-                }
-                return;
-            }
-        }
-
-        // Nothing hit, or hit something without IInteractable — clear.
-        if (_currentTarget != null)
-        {
-            _currentTarget = null;
-            _promptUI?.Hide();
+            currentZone = null;
         }
     }
 
-    // Wire this to the "Interact" action's "performed" event via PlayerInput's
-    // Unity Events, OR call it manually from an OnInteract(InputAction.CallbackContext)
-    // method if you're using "Send Messages" behaviour instead. Both are shown below.
-    public void OnInteractPerformed()
+    // Represents that it should be added to the event system in the input manager and called when the player presses E
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        if (HeldItemController.Instance != null && HeldItemController.Instance.IsHolding)
-        {
-            HeldItemController.Instance.Drop();
-            return;
-        }
+        if (!context.performed) return;
+        if (currentZone == null) return;
 
-        _currentTarget?.Interact(this);
-    }
-
-    // Alternative if you prefer the [Send Messages] PlayerInput behaviour:
-    public void OnInteract(InputValue value)
-    {
-        if (!value.isPressed) return;
-
-        if (HeldItemController.Instance != null && HeldItemController.Instance.IsHolding)
-        {
-            HeldItemController.Instance.Drop();
-            return;
-        }
-
-        _currentTarget?.Interact(this);
+        currentZone.TryInteract();
     }
 }

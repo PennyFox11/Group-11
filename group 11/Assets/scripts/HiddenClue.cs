@@ -1,89 +1,96 @@
 using UnityEngine;
+//Akhona Khoali
+//Honestly I used AI to debug this script. The youtube videos did not match my desired outcome and were outdated
 
-/// <summary>
-/// Attach to objects that start invisible/inert (e.g. the fingerprint on the
-/// pie) and only become interactable while — and after — they're caught in
-/// the scanner's beam.
-///
-/// Matches ScannerController's toggle-light model: this script polls
-/// scanner.IsPointInBeam() each frame rather than waiting for the scanner
-/// to raycast into it. Once revealed, it switches itself to the
-/// "Interactable" layer and enables its visual + collider so the normal
-/// E-interact flow (InteractableItem) picks it up from there.
-/// </summary>
 public class HiddenClue : MonoBehaviour
 {
-    [SerializeField] private ScannerController _scanner; // assign the player's scanner in the inspector
-    [SerializeField] private GameObject _visual;          // disabled until revealed
-    [SerializeField] private Collider _interactCollider;  // disabled until revealed
-    [SerializeField] private string _interactableLayerName = "Interactable";
-    [Tooltip("Once revealed, stays revealed even if the beam moves away. Uncheck for 'only visible while lit up'.")]
-    [SerializeField] private bool _stayRevealedOnceFound = true;
+    [SerializeField] private string playerTag = "Player";
 
-    private bool _isRevealed;
+    // Grabs every renderer in this object AND its children, since the visible mesh is often on a child GameObject rather than this one.
+    // This is because with some objects have 2 meshes so one remained visible meaning the scanning mechanic so all remders under the object must have been switched off unless the been touches it then the mesh becomes visible
+    
+    private Renderer[] clueRenderers;
+    private ScannerController scanner;
 
     private void Awake()
     {
-        if (_scanner == null)
+        clueRenderers = GetComponentsInChildren<Renderer>(true);
+
+        if (clueRenderers.Length == 0)
         {
-            // Fallback so you don't have to manually drag the scanner onto
-            // every single hidden clue in the scene. Assumes one scanner
-            // (the player's) exists. Cache it once here rather than calling
-            // FindObjectOfType in Update.
-#if UNITY_2023_1_OR_NEWER
-            _scanner = FindFirstObjectByType<ScannerController>();
-#else
-            _scanner = FindObjectOfType<ScannerController>();
-#endif
-            if (_scanner == null)
-            {
-                Debug.LogWarning($"{name}: no ScannerController found in scene and none assigned — this clue can never be revealed.", this);
-            }
+            Debug.LogWarning($"HiddenClue on '{name}' found no Renderer in itself or its children.");
         }
 
-        SetRevealedVisuals(false);
+        SetRenderersEnabled(false);
     }
+
+    private void SetRenderersEnabled(bool value)
+    {
+        foreach (var r in clueRenderers)
+        {
+            r.enabled = value;
+        }
+    }
+
+    private void Start()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+        if (player == null)
+        {
+            Debug.LogWarning($"[{name}] No GameObject found with tag '{playerTag}'. Check that your player root has this exact tag.");
+        }
+        else
+        {
+            scanner = player.GetComponentInChildren<ScannerController>();
+            if (scanner == null)
+            {
+                Debug.LogWarning($"[{name}] Found player object '{player.name}' (tag '{playerTag}'), but no ScannerController on it or its children.");
+            }
+            else
+            {
+                Debug.Log($"[{name}] Scanner found successfully on '{scanner.gameObject.name}'.");
+            }
+        }
+    }
+
+    // TEMP DEBUG: logs once a second instead of every frame so the console stays readable. This is because When testing I ran intp a situation where the clue was visible for a single frame and then hidden again, and I wanted to see what was happening.I realised that the problem was the tags
+    private float debugLogTimer = 0f;
 
     private void Update()
     {
-        if (_isRevealed && _stayRevealedOnceFound) return;
-        if (_scanner == null) return;
+        debugLogTimer += Time.deltaTime;
+        bool shouldLog = debugLogTimer >= 1f;
+        if (shouldLog) debugLogTimer = 0f;
 
-        bool inBeam = _scanner.IsPointInBeam(transform.position);
-
-        if (inBeam && !_isRevealed)
+        if (scanner == null || !scanner.IsOn)
         {
-            Reveal();
+            if (shouldLog) Debug.Log($"[{name}] HIDDEN — scanner null? {scanner == null}, IsOn? {(scanner != null ? scanner.IsOn.ToString() : "n/a")}");
+            SetRenderersEnabled(false);
+            return;
         }
-        else if (!inBeam && _isRevealed && !_stayRevealedOnceFound)
+
+        Vector3 origin = scanner.GetOrigin();
+        Vector3 toClue = transform.position - origin;
+        float distance = toClue.magnitude;
+
+        // Too far away for the beam to reach
+        if (distance > scanner.GetRange())
         {
-            Hide();
+            if (shouldLog) Debug.Log($"[{name}] HIDDEN — too far. distance={distance:F1}, range={scanner.GetRange():F1}");
+            SetRenderersEnabled(false);
+            return;
         }
-    }
 
-    public void Reveal()
-    {
-        if (_isRevealed) return;
-        _isRevealed = true;
+        // Outside the cone of the spotlight
+        float angle = Vector3.Angle(scanner.GetForward(), toClue);
+        if (angle > scanner.GetSpotAngle() / 2f)
+        {
+            if (shouldLog) Debug.Log($"[{name}] HIDDEN — outside cone. angle={angle:F1}, halfSpotAngle={scanner.GetSpotAngle() / 2f:F1}");
+            SetRenderersEnabled(false);
+            return;
+        }
 
-        SetRevealedVisuals(true);
-        gameObject.layer = LayerMask.NameToLayer(_interactableLayerName);
-
-        GameEvents.RaiseHiddenClueRevealed(this);
-        // Note: the InteractableItem/ClueCard flow still fires separately when
-        // the player then presses E on it — Reveal() only makes it findable.
-    }
-
-    private void Hide()
-    {
-        _isRevealed = false;
-        SetRevealedVisuals(false);
-        gameObject.layer = LayerMask.NameToLayer("Hidden");
-    }
-
-    private void SetRevealedVisuals(bool revealed)
-    {
-        if (_visual != null) _visual.SetActive(revealed);
-        if (_interactCollider != null) _interactCollider.enabled = revealed;
+        if (shouldLog) Debug.Log($"[{name}] VISIBLE — distance={distance:F1}, angle={angle:F1}");
+        SetRenderersEnabled(true);
     }
 }
